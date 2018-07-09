@@ -23,10 +23,13 @@ public class ServerPilot{
         try{
             clientList = new Vector<ClientHandler>(EXPECTED_USERS,VECTOR_CAPACITY_INCREMENT);
             removeList = new Vector<ClientHandler>(1,1);
-            ChatServer.init();
+            ChatServer.clientList=clientList;
             stdIn = new BufferedReader(new InputStreamReader(System.in));
             serverSocket = new ServerSocket(PORT);
             connectionListener = new ConnectionListener();
+			ConnectionListener.clientList=clientList;
+			ConnectionListener.serverSocket=serverSocket;
+			ChatServer.init();
             System.out.println("Established on port "+PORT);
             connectionListener.start();
             inputLoop();
