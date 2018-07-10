@@ -1,0 +1,54 @@
+Notes:
+Instantiated classes are the ones that are meant to have instances, and static classes are the ones that will never have instances.
+MAJOR TODO: Figure out which GUI library we'll use
+
+POKER GAME DESIGN DOCUMENT
+
+--PokerServer--
+
+MAIN
+  -Master- (static) DONE
+  This will primarily handle input checking, sockets, and threads. It will be responsible for calling functions in GameHandler when events occur, and updating the master list of clients (clientList).
+  -ConnectionListener- (instantiated) DONE
+  This is be the thread that listens for new connections. All instances should be handled by Master. Upon getting a new connection, it will call the newConnection method in GameHandler.
+
+GAME
+  -GameHandler- (static) INCOMPLETE
+  All game events activate in this class. GameHandler should be responsible for creating and logging in users, creating new game instances, telling those games when/how to progress based on client input, and telling the clients how their game progressed. If the player's current game is not waiting for their input, then it should let them know and ignore that input. If it is, it should pass it to the game.
+  Every time the game creates a new user it will save, and every time the game logs in a user it will load.
+  -Client- (instantiated) INCOMPLETE
+  This is an instance of a client. It contains information about their connection including in/out buffers, user information (e.g. username and HASHED password, chip amount), game variables which are relevant to their current game (e.g. current chips WHICH SYNC WITH CHIP AMOUNT AFTER THE GAME ENDS, whether or not the game is waiting for their input), and a reference to their current game.
+  -Game- (instantiated) UNSTARTED
+  This is an instance of a game. It contains information about the game including game variables not belonging to players (e.g. current pot), the state the game is in (e.g. waiting, discard phase, bet phase), and a list of references to players currently in the game. It should also create timers, and handle timeout events or interrupt the timer if all players respond first. Upon game end, it will save the user data.
+  OPTIONAL: The game instance should have modular phases, so creating a game with a betphase followed by a discardphase followed by a betphase is as easy as passing an array ["BET","DISCARD","BET","FINISH"]. This modularity will be for implementation of different types of poker, e.g. 5 hand and texas hold-em.
+  -TimeoutThread- (instantiated) UNSTARTED
+  This is an instance of a timer thread that the game will use to time players out when they take too long to respond. There should be a new instance of this thread for each phase, and this method should call its game's timeoutEvent method when it runs out.
+  -SaveFile- (instantiated) UNSTARTED
+  This is the class that will be instantiated briefly every time the GameHandler requests to save or load the clientList's relevant user data. To save, it will store the clientList relevant game data in a dictionary(?), and save this dict as a json file. To load, it will translate the json dictionary, and update all clientList entries that are found in the database.
+  Relevant game data:
+  client.username
+  client.hashpass
+  client.numChips
+
+
+--PokerClient--
+
+MAIN
+  -Master- (static) UNSTARTED
+  This is the object that will start the GUI thread and call buttonPress events in EventHandler when the GUI sends it more specific mouseClick and Keyboard events.
+  -ServerConnection- (instantiated) INCOMPLETE
+  This is the object that will connect to a server, allow writing to that server, and open a ServerListener thread to listen for server data. If its method disconnect is called, it will interrupt the ServerListener instance and destroy it.
+  -ServerListener- (instantiated) UNSTARTED
+  This thread will listen for server input, and activate serverSentData in EventHandler when input is received.
+  -EventHandler- (static) UNSTARTED
+  This is the class that will handle buttonPress events from the GUI, open ServerConnection instances when the user joins a game, and sends appropriate data to the server when the user presses certain buttons. When it receives events via serverSentData, it will update its variables and tell the GUI to display what data the server has sent to the user.
+
+GUI (???)
+
+TEXTURES (???)
+
+--Both--
+MAIN
+  -Globals-
+  This will be a list of all commands as strings which the client can send, and a list of all commands as strings which the server can send. It will be imported via import Globals.*;
+  Globals will also contain various constants, such as the port, timeout length in seconds, and player starting chips.
