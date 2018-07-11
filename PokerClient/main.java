@@ -1,9 +1,9 @@
 import java.io.IOException;
 
-class main{
+class main extends Globals{
 	
 	public static void main(String[] args){
-		ServerConnection server = new ServerConnection("127.0.0.1",992);
+		ServerConnection server = new ServerConnection(ADDRESS,PORT);
 		if(server.sSocket==null){}
 		else{
 			try{

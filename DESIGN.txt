@@ -49,6 +49,6 @@ TEXTURES (???)
 
 --Both--
 MAIN
-  -Globals-
+  -Globals- (static) INCOMPLETE
   This will be a list of all commands as strings which the client can send, and a list of all commands as strings which the server can send. It will be imported via import Globals.*;
   Globals will also contain various constants, such as the port, timeout length in seconds, and player starting chips.

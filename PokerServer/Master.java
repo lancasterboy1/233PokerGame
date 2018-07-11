@@ -6,11 +6,7 @@ import java.util.Vector;
 import java.util.Enumeration;
 import java.lang.Thread;
 
-public class Master{
-	final static int PORT=992;
-	final static int EXPECTED_USERS=10;
-	final static int VECTOR_CAPACITY_INCREMENT=5;
-	final static int MAX_INPUT_CHARACTERS=1024;
+public class Master extends Globals{
 	
 	private static BufferedReader stdIn;
 	private static Thread connectionListener;
@@ -20,7 +16,7 @@ public class Master{
 	
 	public static void main(String[] args){
 		try{
-			clientList = new Vector<ClientHandler>(EXPECTED_USERS,VECTOR_CAPACITY_INCREMENT);
+			clientList = new Vector<ClientHandler>(EXPECTED_USERS,USER_VECTOR_CAPACITY_INCREMENT);
 			GameHandler.clientList=clientList;
 			ConnectionListener.clientList=clientList;
 			stdIn = new BufferedReader(new InputStreamReader(System.in));
