@@ -1,4 +1,4 @@
-public class Globals{
+public interface Globals{
 	public final static int PORT = 992;
 	public final static String ADDRESS = "127.0.0.1";
 	final static int EXPECTED_USERS=10;

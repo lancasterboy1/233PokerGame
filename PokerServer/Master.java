@@ -11,8 +11,8 @@ public class Master extends Globals{
 	private static BufferedReader stdIn;
 	private static Thread connectionListener;
 	private static ServerSocket serverSocket;
-	public static Vector<ClientHandler> clientList;
-	public static boolean cont;
+	private static Vector<ClientHandler> clientList;
+	private static boolean cont;
 	
 	public static void main(String[] args){
 		try{

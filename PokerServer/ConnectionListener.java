@@ -8,7 +8,7 @@ public class ConnectionListener extends Thread{
 	
 	public static Vector<ClientHandler> clientList;
 	public static ServerSocket serverSocket;
-	public boolean cont;
+	private boolean cont;
 	
 	public void run(){
 		//CHECKS:
