@@ -1,2 +1,3 @@
-javac -d . ServerPilot.java
-java ServerPilot
+call javac -d . Master.java
+call java Master
+pause
