@@ -10,7 +10,7 @@ public class ChatServer{
     * This function is called when the server first begins
     */
     public static void init(){
-        
+		
     }
     
     /*
