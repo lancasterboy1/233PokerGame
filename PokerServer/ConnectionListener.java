@@ -7,17 +7,17 @@ import java.io.IOException;
 public class ConnectionListener extends Thread{
     
     public static Vector<ClientHandler> clientList;
+    public static ServerSocket serverSocket;
     public boolean cont;
     
     public void run(){
-        clientList = ServerPilot.clientList;
         //CHECKS:
         //NEW CLIENT CONNECTIONS
         System.out.println("Listening for new connections...");
         this.cont=true;
         while(this.cont){
             try{
-                Socket newSocket = ServerPilot.serverSocket.accept(); //blocks
+                Socket newSocket = serverSocket.accept(); //blocks
                 
                 //Check if they're already on the list, remove duplicates
                 Vector<ClientHandler> removalList = new Vector<ClientHandler>(1,1);

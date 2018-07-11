@@ -14,19 +14,20 @@ public class ServerPilot{
     
     private static BufferedReader stdIn;
     private static Thread connectionListener;
-    public static ServerSocket serverSocket;
+    private static ServerSocket serverSocket;
     public static Vector<ClientHandler> clientList;
-    public static Vector<ClientHandler> removeList;
     public static boolean cont;
     
     public static void main(String[] args){
         try{
             clientList = new Vector<ClientHandler>(EXPECTED_USERS,VECTOR_CAPACITY_INCREMENT);
-            removeList = new Vector<ClientHandler>(1,1);
             ChatServer.init();
+            ChatServer.clientList=clientList;
             stdIn = new BufferedReader(new InputStreamReader(System.in));
             serverSocket = new ServerSocket(PORT);
             connectionListener = new ConnectionListener();
+            ConnectionListener.clientList=clientList;
+            ConnectionListener.serverSocket=serverSocket;
             System.out.println("Established on port "+PORT);
             connectionListener.start();
             inputLoop();
@@ -57,7 +58,11 @@ public class ServerPilot{
                         System.out.println("Console reached EOF.");
                     }
                     else{ //valid message
-                        ChatServer.consoleSentData(cleanInput(charBuf,numRead));
+                        String inputText = cleanInput(charBuf,numRead);
+                        if(inputText.equals("")){}
+                        else{
+                            ChatServer.consoleSentData();
+                        }
                     }
                 }
             }
@@ -114,6 +119,9 @@ public class ServerPilot{
                 i.nextElement().close();
             }
         }
-        catch(IOException e){System.out.println("Error in shutting down. Forcing shutdown.");}
+        catch(IOException e){
+            System.out.println("Error in shutting down. Forcing shutdown.");
+            System.exit(0);
+        }
     }
 }

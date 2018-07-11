@@ -10,12 +10,12 @@ public class ChatServer{
     * This function is called when the server first begins
     */
     public static void init(){
-        clientList=ServerPilot.clientList;
+        
     }
     
     /*
     * Every time a new client connects, this function is called
-    * (RUNS ON A THREAD - DO NOT CLOSE SOCKETS)
+    * (RUNS ON A THREAD)
     * @param client The client who connected
     */
     public static void newClientConnection(ClientHandler client){
