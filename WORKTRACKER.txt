@@ -1,0 +1,20 @@
+S
+ - clientSendData UNSTARTED
+ - Game UNSTARTED
+ - startGame UNSTARTED
+X
+ - addPlayer UNSTARTED
+ - endRound UNSTARTED
+ - endgame UNSTARTED
+M
+ - removePlayer UNSTARTED
+ - discardPhase UNSTARTED
+ - userSentData UNSTARTED
+J
+ - startRound UNSTARTED
+ - nextPhase UNSTARTED
+ - winningHand UNSTARTED
+A
+ - betPhase UNSTARTED
+ - queryPlayer UNSTARTED
+ - queryMultiplePlayers UNSTARTED
