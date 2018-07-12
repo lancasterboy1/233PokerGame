@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Vector;
 
 public class ClientHandler{
 	private Socket cSocket;
@@ -11,11 +12,10 @@ public class ClientHandler{
 	public BufferedReader in;
 	public PrintWriter out;
 	
-	public String username;
-	public String hashpass;
 	public int numChips;
-	
-	//More variables here
+	public Vector<Card> hand;
+	public Game currentGame;
+	public boolean waitingForInput;
 	
 	public ClientHandler(Socket clientSocket){
 		this.cSocket=clientSocket;
@@ -27,6 +27,7 @@ public class ClientHandler{
 		catch(IOException e){
 			System.out.println("Failed to communicate with client "+IP);
 		}
+		this.waitingForInput=false;
 	}
 	
 	public void close(){

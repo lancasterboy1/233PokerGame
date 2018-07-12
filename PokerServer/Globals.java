@@ -6,4 +6,6 @@ public class Globals{
 	final static int MAX_INPUT_CHARACTERS=1024;
 	final static String[] FACE_VALUES=["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 	final static String[] SUITS=["diamonds","clubs","spades","hearts"];
+	final static String[] PHASE_ARRAY=["DISCARD","BET","FINISH"]; //must end with FINISH
+	
 }
