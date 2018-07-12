@@ -10,6 +10,6 @@ public class Card extends Globals{
 	}
 	
 	public String getName(){
-	return FACE_VALUES[face]+" of "+SUITS[suit];
+		return FACE_VALUES[face]+" of "+SUITS[suit];
 	}
 }
