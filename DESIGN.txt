@@ -21,6 +21,8 @@ GAME
   -Game- (instantiated) UNSTARTED
   This is an instance of a game. It contains information about the game including game variables not belonging to players (e.g. current pot), the state the game is in (e.g. waiting, discard phase, bet phase), and a list of references to players currently in the game. It should also create timers, and handle timeout events or interrupt the timer if all players respond first. Upon game end, it will save the user data.
   OPTIONAL: The game instance should have modular phases, so creating a game with a betphase followed by a discardphase followed by a betphase is as easy as passing an array ["BET","DISCARD","BET","FINISH"]. This modularity will be for implementation of different types of poker, e.g. 5 hand and texas hold-em.
+  -Card- (instantiated)
+  A card
   -TimeoutThread- (instantiated) UNSTARTED
   This is an instance of a timer thread that the game will use to time players out when they take too long to respond. There should be a new instance of this thread for each phase, and this method should call its game's timeoutEvent method when it runs out.
   -SaveFile- (instantiated) UNSTARTED
@@ -34,13 +36,13 @@ GAME
 --PokerClient--
 
 MAIN
-  -Master- (static) UNSTARTED
+  -Master- (static) UNTESTED
   This is the object that will start the GUI thread and call buttonPress events in EventHandler when the GUI sends it more specific mouseClick and Keyboard events.
-  -ServerConnection- (instantiated) INCOMPLETE
+  -ServerConnection- (instantiated) UNTESTED
   This is the object that will connect to a server, allow writing to that server, and open a ServerListener thread to listen for server data. If its method disconnect is called, it will interrupt the ServerListener instance and destroy it.
-  -ServerListener- (instantiated) UNSTARTED
+  -ServerListener- (instantiated) UNTESTED
   This thread will listen for server input, and activate serverSentData in EventHandler when input is received.
-  -EventHandler- (static) UNSTARTED
+  -EventHandler- (static) INCOMPLETE
   This is the class that will handle buttonPress events from the GUI, open ServerConnection instances when the user joins a game, and sends appropriate data to the server when the user presses certain buttons. When it receives events via serverSentData, it will update its variables and tell the GUI to display what data the server has sent to the user.
 
 GUI (???)
