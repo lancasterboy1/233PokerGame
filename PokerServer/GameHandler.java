@@ -55,4 +55,12 @@ public class GameHandler{
 			}
 		}
 	}
+	
+	public static void clientSendData(Client user, String cmd) {
+		
+		
+		
+		
+		
+	}
 }

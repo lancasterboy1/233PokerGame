@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.lang.Thread;
+import java.util.Iterator;
 
 public class Master extends Globals{
 	
