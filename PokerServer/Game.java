@@ -7,7 +7,7 @@ public class Game{
 	private String gameState; //WAITING or IN PROGRESS
 	private int gamePhase; //index of PHASE_ARRAY
 	
-	public static void Game(Client creator) {
+	public static void Game(ClientHandler creator) {
 		players = new Vector<ClientHandler>();
 		deck = new Vector<Card>();
 		players.add(creator);
@@ -19,8 +19,8 @@ public class Game{
 	public static void startGame() {
 		Iterator<ClientHandler> itr = players.iterator();
 		while(itr.hasNext()) {
-			
+			itr.next().numChips=1000;
 		}
-		
+		startRound();
 	}
 }

@@ -56,11 +56,9 @@ public class GameHandler{
 		}
 	}
 	
-	public static void clientSendData(Client user, String cmd) {
-		
-		
-		
-		
-		
+	public static void clientSendData(ClientHandler user, String cmd) {
+		//todo
+		if(user.waitingForInput)
+			clientSentData(user, cmd);
 	}
 }
