@@ -1,6 +1,6 @@
 S
  - clientSendData UNSTARTED
- - Game UNSTARTED
+ - Game INCOMPLETE
  - startGame UNSTARTED
 X
  - addPlayer UNSTARTED
