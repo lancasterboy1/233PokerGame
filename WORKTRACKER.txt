@@ -8,7 +8,7 @@ X
  - endgame UNSTARTED
 M
  - removePlayer UNSTARTED
- - discardPhase UNSTARTED
+ - discardPhase UNTESTED
  - discardResponse UNSTARTED
 J
  - startRound UNSTARTED

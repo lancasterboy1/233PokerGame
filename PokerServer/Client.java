@@ -30,6 +30,17 @@ public class Client{
 		this.waitingForInput=false;
 	}
 	
+	public String getHand(){ //UNTESTED
+		int num = 1;
+		String retString="";
+		Iterator<Client> itr = hand.iterator();
+		while(itr.hasNext()) {
+			retString += ""+num+": "+itr.next().getName()+"\n";
+			num+=1;
+		}
+		return retString;
+	}
+	
 	public void close(){
 		try{
 			this.in.close();

@@ -45,17 +45,22 @@ public class Game{
 	}
 
 	private void discardPhase(){
-
-		for(int x = 0; x < players.size(); x++){
-
-			[players(x)].out.println("Please ")
-
+		Iterator<Client> itr = players.iterator();
+		while(itr.hasNext()) {
+			plr = itr.next();
+			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard]");
+			plr.waitingForInput=true;
 		}
 	}
 
 	private void discardResponse(Client player, String response){
-
-
-
+		
+	}
+	
+	private void tellAllPlayers(String msg){
+		Iterator<Client> itr = players.iterator();
+		while(itr.hasNext()) {
+			itr.next().println(msg);
+		}
 	}
 }
