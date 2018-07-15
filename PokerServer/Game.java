@@ -31,9 +31,7 @@ public class Game{
 		startRound();
 	}
 
-	private void betResponse(Client user, String cmd){}
-	private void playerContinueResponse(Client user, String cmd){}
-	
+	// Austyn - Marc
 	public void userSentData(Client user, String cmd){
 		if(this.gameWaiting){}
 		else{
@@ -44,11 +42,12 @@ public class Game{
 		}
 	}
 
+	// Austyn - Marc
 	private void discardPhase(){
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
 			plr = itr.next();
-			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard]");
+			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5]");
 			plr.waitingForInput=true;
 		}
 	}
@@ -62,5 +61,17 @@ public class Game{
 		while(itr.hasNext()) {
 			itr.next().println(msg);
 		}
+	}
+
+	// Austyn
+	private void betResponse(Client user, String cmd){
+
+
+	}
+
+	// Austyn
+	private void playerContinueResponse(Client user, String cmd){
+
+
 	}
 }
