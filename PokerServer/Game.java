@@ -20,7 +20,7 @@ public class Game{
 		deck = new Vector<Card>();
 		players.add(creator);
 		creator.currentGame=this;
-		this.gameState="WAITING";
+		this.gameWaiting=true;
 	}
 	
 	
