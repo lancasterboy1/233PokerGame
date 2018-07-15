@@ -1,14 +1,19 @@
 
 
 public class Game{
-	private Vector<ClientHandler> players;
-	private Vector<ClientHandler> activePlayers;
+	private Vector<Client> players;
+	private Vector<Client> activePlayers;
 	private Vector<Card> deck;
 	private String gameState; //WAITING or IN PROGRESS
 	private int gamePhase; //index of PHASE_ARRAY
+	private Boolean gameIsFull=false;
 	
-	public static void Game(ClientHandler creator) {
-		players = new Vector<ClientHandler>();
+	public static Boolean isFull() {
+		return gameIsFull;
+	}
+	
+	public static void Game(Client creator) {
+		players = new Vector<Client>();
 		deck = new Vector<Card>();
 		players.add(creator);
 		creator.currentGame=this;
@@ -17,7 +22,7 @@ public class Game{
 	
 	
 	public static void startGame() {
-		Iterator<ClientHandler> itr = players.iterator();
+		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
 			itr.next().numChips=1000;
 		}

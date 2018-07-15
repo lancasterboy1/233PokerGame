@@ -5,6 +5,7 @@ import java.util.Enumeration;
 public class GameHandler{
 	
 	public static Vector<ClientHandler> clientList; //Auto updates as people join and leave
+	public static Vector<Game> gameList;
 	
 	/*
 	* This function is called when the server first begins
@@ -56,8 +57,26 @@ public class GameHandler{
 		}
 	}
 	
-	public static void clientSendData(ClientHandler user, String cmd) {
-		//todo
+	public static void clientSendData(Client user, String cmd) {
+		if(cmd=="JOIN") {
+			Iterator<Game> gameIterator = gameList.iterator();
+			while(gameIterator.hasNext()) {
+				if(!gameIterator.next().isFull()) {
+					gameIterator.next().addPlayer(user);
+					break;
+				}
+			}
+			Game newGame = new Game(user);
+			gameList.add(newGame);
+		}
+		else if(cmd=="START") {
+			if(user.currentGame!=null)
+				user.currentGame.startGame();
+		}
+		else if(cmd=="EXIT") {
+			if(user.currentGame!=null)
+				user.currentGame.removePlayer(user);
+		}
 		if(user.waitingForInput)
 			clientSentData(user, cmd);
 	}
