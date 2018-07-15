@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ConnectionListener extends Thread{
 	
-	public static Vector<ClientHandler> clientList;
+	public static Vector<Client> clientList;
 	public static ServerSocket serverSocket;
 	private boolean cont;
 	
@@ -20,22 +20,22 @@ public class ConnectionListener extends Thread{
 				Socket newSocket = serverSocket.accept(); //blocks
 				
 				//Check if they're already on the list, remove duplicates
-				Vector<ClientHandler> removalList = new Vector<ClientHandler>(1,1);
-				for(Enumeration<ClientHandler> en=clientList.elements();en.hasMoreElements();){
-					ClientHandler i = en.nextElement();
+				Vector<Client> removalList = new Vector<Client>(1,1);
+				for(Enumeration<Client> en=clientList.elements();en.hasMoreElements();){
+					Client i = en.nextElement();
 					if(newSocket.getInetAddress().toString().equals(i.IP.toString())){
 						System.out.println("Instance of client "+i.IP+" already listed, removing duplicate.");
 						i.close();
 						removalList.add(i);
 					}
 				}
-				for(Enumeration<ClientHandler> en=removalList.elements();en.hasMoreElements();){
-					ClientHandler i = en.nextElement();
+				for(Enumeration<Client> en=removalList.elements();en.hasMoreElements();){
+					Client i = en.nextElement();
 					clientList.remove(i);
 				}
 				removalList.clear();
 				//Add them to the list
-				ClientHandler newClient = new ClientHandler(newSocket);
+				Client newClient = new Client(newSocket);
 				clientList.add(newClient);
 				GameHandler.newClientConnection(newClient);
 			}

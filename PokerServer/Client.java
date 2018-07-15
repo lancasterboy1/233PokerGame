@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Vector;
 
-public class ClientHandler{
+public class Client{
 	private Socket cSocket;
 	public InetAddress IP;
 	public BufferedReader in;
@@ -17,7 +17,7 @@ public class ClientHandler{
 	public Game currentGame;
 	public boolean waitingForInput;
 	
-	public ClientHandler(Socket clientSocket){
+	public Client(Socket clientSocket){
 		this.cSocket=clientSocket;
 		this.IP=cSocket.getInetAddress();
 		try{
