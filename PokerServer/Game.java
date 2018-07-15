@@ -7,6 +7,11 @@ public class Game{
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
 	private boolean gameIsFull=false;
+	
+	private int currentBetTurn=0;
+	private int currentBet=0;
+	private int consecutiveCalls=0;
+	private boolean allIn=false;
 
 	
 	public boolean isFull() {
@@ -21,6 +26,10 @@ public class Game{
 		this.gameWaiting=true;
 	}
 	
+	public void addPlayer(Client player){}
+	
+	//Marc
+	public void removePlayer(Client player){}
 	
 	public void startGame() {
 		Iterator<Client> itr = players.iterator();
@@ -47,11 +56,12 @@ public class Game{
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
 			plr = itr.next();
-			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5]");
+			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
 			plr.waitingForInput=true;
 		}
 	}
 
+	//Marc
 	private void discardResponse(Client player, String response){
 		
 	}
