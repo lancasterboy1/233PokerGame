@@ -6,10 +6,10 @@ public class Game{
 	private Vector<Card> deck;
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
-	private Boolean gameIsFull=false;
+	private boolean gameIsFull=false;
 
 	
-	public Boolean isFull() {
+	public boolean isFull() {
 		return gameIsFull;
 	}
 	

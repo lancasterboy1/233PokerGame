@@ -10,7 +10,6 @@ M
  - removePlayer UNSTARTED
  - discardPhase UNSTARTED
  - discardResponse UNSTARTED
- - userSentData UNSTARTED
 J
  - startRound UNSTARTED
  - nextPhase UNSTARTED
