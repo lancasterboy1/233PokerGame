@@ -4,8 +4,14 @@ import java.util.Enumeration;
 
 public class GameHandler{
 	
+<<<<<<< HEAD
 	public static Vector<ClientHandler> clientList; //Auto updates as people join and leave
 	public static Vector<Game> gameList;
+=======
+	public static Vector<Client> clientList; //Auto updates as people join and leave
+	
+	private static Vector<Game> gameList;
+>>>>>>> 5885324e1309d75ead9bef91bb0991a599d3890a
 	
 	/*
 	* This function is called when the server first begins
@@ -19,12 +25,8 @@ public class GameHandler{
 	* (RUNS ON A THREAD)
 	* @param client The client who connected
 	*/
-	public static void newClientConnection(ClientHandler client){
-		System.out.println(client.IP+" connected.");
-		for(Enumeration<ClientHandler> en=clientList.elements();en.hasMoreElements();){
-			ClientHandler i = en.nextElement();
-			i.out.println(client.IP+" connected.");
-		}
+	public static void newClientConnection(Client client){
+		//todo
 	}
 	
 	/*
@@ -40,12 +42,8 @@ public class GameHandler{
 	* @param client The client who sent a message
 	* @param cmd The message they sent
 	*/
-	public static void clientSentData(ClientHandler client, String cmd){
-		System.out.println(client.IP+": "+cmd);
-		for(Enumeration<ClientHandler> en=clientList.elements();en.hasMoreElements();){
-			ClientHandler i = en.nextElement();
-			i.out.println(client.IP+": "+cmd);
-		}
+	public static void clientSentData(Client client, String cmd){
+		
 		if(cmd.equals("exit")){
 			client.close();
 			clientList.remove(client);
@@ -55,6 +53,7 @@ public class GameHandler{
 				i.out.println(client.IP+" disconnected.");
 			}
 		}
+<<<<<<< HEAD
 	}
 	
 	public static void clientSendData(Client user, String cmd) {
@@ -78,6 +77,10 @@ public class GameHandler{
 				user.currentGame.removePlayer(user);
 		}
 		if(user.waitingForInput)
+=======
+		//todo
+		else if(user.waitingForInput)
+>>>>>>> 5885324e1309d75ead9bef91bb0991a599d3890a
 			clientSentData(user, cmd);
 	}
 }

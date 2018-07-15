@@ -12,12 +12,12 @@ public class Master extends Globals{
 	private static BufferedReader stdIn;
 	private static Thread connectionListener;
 	private static ServerSocket serverSocket;
-	private static Vector<ClientHandler> clientList;
+	private static Vector<Client> clientList;
 	private static boolean cont;
 	
 	public static void main(String[] args){
 		try{
-			clientList = new Vector<ClientHandler>(EXPECTED_USERS,USER_VECTOR_CAPACITY_INCREMENT);
+			clientList = new Vector<Client>(EXPECTED_USERS,USER_VECTOR_CAPACITY_INCREMENT);
 			GameHandler.clientList=clientList;
 			ConnectionListener.clientList=clientList;
 			stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -65,8 +65,8 @@ public class Master extends Globals{
 			}
 			catch(IOException e){}
 			//CONNECTED CLIENT INPUT CHECK
-			for(Enumeration<ClientHandler> en=clientList.elements();en.hasMoreElements();){
-				ClientHandler i = en.nextElement();
+			for(Enumeration<Client> en=clientList.elements();en.hasMoreElements();){
+				Client i = en.nextElement();
 				try{
 					if(i.in.ready()){
 						char[] charBuf = new char[MAX_INPUT_CHARACTERS+1]; //I'M ASSUMING ALL VALUES INIT TO 0
@@ -116,7 +116,7 @@ public class Master extends Globals{
 			connectionListener.interrupt();
 			stdIn.close();
 			serverSocket.close();
-			for(Enumeration<ClientHandler> i=clientList.elements();i.hasMoreElements();){
+			for(Enumeration<Client> i=clientList.elements();i.hasMoreElements();){
 				i.nextElement().close();
 			}
 		}
