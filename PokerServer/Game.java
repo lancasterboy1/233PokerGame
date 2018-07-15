@@ -7,7 +7,7 @@ public class Game{
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
 	
-	public static void Game(Client creator) {
+	public void Game(Client creator) {
 		players = new Vector<Client>();
 		deck = new Vector<Card>();
 		players.add(creator);
@@ -16,12 +16,26 @@ public class Game{
 	}
 	
 	
-	public static void startGame() {
+	public void startGame() {
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
 			itr.next().numChips=1000;
 		}
 		this.gameWaiting=false;
 		startRound();
+	}
+	
+	private void discardResponse(Client user, String cmd){}
+	private void betResponse(Client user, String cmd){}
+	private void playerContinueResponse(Client user, String cmd){}
+	
+	public void userSentData(Client user, String cmd){
+		if(this.gameWaiting){}
+		else{
+			String currentPhase = PHASE_ARRAY[gamePhase];
+			if(currentPhase=="DISCARD") this.discardResponse(user,cmd);
+			else if(currentPhase=="BET") this.betResponse(user,cmd);
+			else if(currentPhase=="FINISH") this.playerContinueResponse(user,cmd);
+		}
 	}
 }

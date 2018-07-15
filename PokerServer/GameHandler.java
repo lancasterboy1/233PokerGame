@@ -49,7 +49,7 @@ public class GameHandler{
 			}
 		}
 		//todo
-		else if(user.waitingForInput)
-			clientSentData(user, cmd);
+		else if(client.waitingForInput)
+			client.currentGame.userSentData(client, cmd);
 	}
 }

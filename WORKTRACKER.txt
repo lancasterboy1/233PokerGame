@@ -9,6 +9,7 @@ X
 M
  - removePlayer UNSTARTED
  - discardPhase UNSTARTED
+ - discardResponse UNSTARTED
  - userSentData UNSTARTED
 J
  - startRound UNSTARTED
@@ -16,5 +17,5 @@ J
  - winningHand UNSTARTED
 A
  - betPhase UNSTARTED
- - queryPlayer UNSTARTED
- - queryMultiplePlayers UNSTARTED
+ - betResponse UNSTARTED
+ - playerContinueResponse UNSTARTED
