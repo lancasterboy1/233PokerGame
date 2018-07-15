@@ -1,4 +1,4 @@
-
+import java.util.Vector;
 
 public class Game{
 	private Vector<ClientHandler> players;
@@ -23,4 +23,35 @@ public class Game{
 		}
 		startRound();
 	}
+
+	private void discardPhase(){
+
+		for(int x = 0; x < players.size(); x++){
+
+			[players(x)].out.println("Please ")
+
+		}
+	}
+
+	private void discardResponse(Client player, String response){
+
+
+
+	}
+
+
+
+	private void userSentData(Client user, String cmd){
+
+		if (!this.gameWaiting|) {
+			if (PHASE_ARRAY(gamePhase) == "DISCARD") // discard phase
+				discardResponse(user, cmd);
+			else if (PHASE_ARRAY(gamePhase) == "BET") // bet phase
+				betResponse(user, cmd);
+			else if (PHASE_ARRAY(gamePhase) == "FINISH") // finish
+				playerContinueResponse(user, cmd);
+		}
+	}
+
+
 }

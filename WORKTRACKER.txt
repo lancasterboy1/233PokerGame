@@ -1,6 +1,6 @@
 S
  - clientSendData UNSTARTED
- - Game UNSTARTED
+ - Game INCOMPLETE
  - startGame UNSTARTED
 X
  - addPlayer UNSTARTED
@@ -15,6 +15,6 @@ J
  - nextPhase UNSTARTED
  - winningHand UNSTARTED
 A
- - betPhase UNSTARTED
+ - betPhase INCOMPLETE
  - queryPlayer UNSTARTED
  - queryMultiplePlayers UNSTARTED
