@@ -31,9 +31,7 @@ public class Game{
 		startRound();
 	}
 
-	private void betResponse(Client user, String cmd){}
-	private void playerContinueResponse(Client user, String cmd){}
-	
+	// Austyn - Marc
 	public void userSentData(Client user, String cmd){
 		if(this.gameWaiting){}
 		else{
@@ -44,17 +42,31 @@ public class Game{
 		}
 	}
 
+	// Austyn
 	private void discardPhase(){
 
 		for(int x = 0; x < players.size(); x++){
 
-			[players(x)].out.println("Please ")
+			[players(x)].out.println("Which cards would you like to discard (ie 1, 2, 3, 4, or 5");
+			player(x).waitingForInput = true;
 
 		}
 	}
 
 	private void discardResponse(Client player, String response){
 
+
+
+	}
+
+	// Austyn
+	private void betResponse(Client user, String cmd){
+
+
+	}
+
+	// Austyn
+	private void playerContinueResponse(Client user, String cmd){
 
 
 	}
