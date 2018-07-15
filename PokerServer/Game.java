@@ -7,14 +7,13 @@ public class Game{
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
 	private Boolean gameIsFull=false;
+
 	
-<<<<<<< HEAD
 	public static Boolean isFull() {
 		return gameIsFull;
 	}
 	
-=======
->>>>>>> 5885324e1309d75ead9bef91bb0991a599d3890a
+
 	public static void Game(Client creator) {
 		players = new Vector<Client>();
 		deck = new Vector<Card>();
