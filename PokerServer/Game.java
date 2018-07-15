@@ -6,13 +6,19 @@ public class Game{
 	private Vector<Card> deck;
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
+	private Boolean gameIsFull=false;
+
+	
+	public Boolean isFull() {
+		return gameIsFull;
+	}
 	
 	public void Game(Client creator) {
 		players = new Vector<Client>();
 		deck = new Vector<Card>();
 		players.add(creator);
 		creator.currentGame=this;
-		this.gameWaitin=true;
+		this.gameWaiting=true;
 	}
 	
 	
