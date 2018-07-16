@@ -78,23 +78,7 @@ public class Game{
 
 	// Austyn
 	private int totalPlayers(){
-
-		Iterator<Client> itr = players.iterator();
-		int count =0;
-
-		// counting total players
-		while(itr.hasNext()) {
-			plr = itr.next();
-			plr.waitingForInput = false;
-			count++;
-		}
-
-		while(itr.hasPrevious()) {
-			plr = itr.previous();
-		}
-
-		return count;
-
+		return this.players.length();
 	}
 
 	// Austyn
@@ -121,8 +105,10 @@ public class Game{
 			plr = itr.next();
 			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
-			betResponse();
-			plr.waitingForInput = false;
+			/*betResponse();
+			plr.waitingForInput = false;*/
+			// betResponse() is called by userSentData only, in the event that a client sends data,
+			// their waitingForInput is true, and the current phase is betPhase
 		}
 
 		while(itr.hasPrevious()) {
@@ -134,8 +120,9 @@ public class Game{
 			plr = itr.next();
 			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nFOLD\nCALL");
 			plr.waitingForInput = true;
-			betResponse();
-			plr.waitingForInput = false;
+			/*betResponse();
+			plr.waitingForInput = false;*/
+			//same story here
 		}
 
 		while(itr.hasPrevious()) {
