@@ -8,7 +8,7 @@ public class Game{
 	private int gamePhase; //index of PHASE_ARRAY
 	private boolean gameIsFull=false;
 	
-	private int currentBetTurn=0;
+	private int currentBetTurn=0; // 0 == first player bet, 1 == every other player bet in first round, 2 == second round of bet (can't raise)
 	private int currentBet=0;
 	private int consecutiveCalls=0;
 	private boolean allIn=false;
@@ -51,6 +51,9 @@ public class Game{
 		}
 	}
 
+	// Phases / Responses
+	// These define the writing to players / handling player responses for each of discarding, betting,
+
 	// Austyn - Marc
 	private void discardPhase(){
 		Iterator<Client> itr = players.iterator();
@@ -74,7 +77,85 @@ public class Game{
 	}
 
 	// Austyn
+	private int totalPlayers(){
+
+		Iterator<Client> itr = players.iterator();
+		int count =0;
+
+		// counting total players
+		while(itr.hasNext()) {
+			plr = itr.next();
+			plr.waitingForInput = false;
+			count++;
+		}
+
+		while(itr.hasPrevious()) {
+			plr = itr.previous();
+		}
+
+		return count;
+
+	}
+
+	// Austyn
+	private void betPhase(){
+
+		currentBetTurn=0;
+		currentBet=0;
+		consecutiveCalls=0;
+		allIn=false;
+
+		int playerCount = totalPlayers();
+
+		Iterator<Client> itr = players.iterator();
+
+		// First player must call minimum call of 2 chips
+		plr = itr.next();
+		plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
+		plr.waitingForInput = true;
+		betResponse();
+		plr.waitingForInput = false;
+
+		currentBetTurn = 1;
+		for(int x = 1; x < playerCount; x++) {
+			plr = itr.next();
+			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
+			plr.waitingForInput = true;
+			betResponse();
+			plr.waitingForInput = false;
+		}
+
+		while(itr.hasPrevious()) {
+			plr = itr.previous();
+		}
+
+		currentBetTurn = 2;
+		for(int x = 1; x < playerCount; x++) {
+			plr = itr.next();
+			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nFOLD\nCALL");
+			plr.waitingForInput = true;
+			betResponse();
+			plr.waitingForInput = false;
+		}
+
+		while(itr.hasPrevious()) {
+			plr = itr.previous();
+		}
+
+	}
+
+	// Austyn
 	private void betResponse(Client user, String cmd){
+
+		if (currentBetTurn == 0) {
+
+		}
+		else if (currentBetTurn == 1){
+
+		}
+		else if (currentBetTurn == 2){
+
+		}
 
 
 	}
