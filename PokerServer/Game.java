@@ -26,7 +26,6 @@ public class Game extends Globals{
 	public void Game(Client creator) {
 		players = new Vector<Client>();
 		deck = new Vector<Card>();
-		playerResponses = new HashMap<Client,String>();
 		players.add(creator);
 		creator.currentGame=this;
 		this.gameWaiting=true;
@@ -38,11 +37,13 @@ public class Game extends Globals{
 	public void removePlayer(Client player){}
 	
 	public void startGame() {
+		this.playerResponses = new HashMap<int,String>(this.players.size()); //please leave this here i need it
+		
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
 			itr.next().numChips=1000;
 		}
-		// fun tip: Collections.shuffle(v) shuffles the item order for the vector v
+		// fun tip: Collections.shuffle(this.deck) shuffles the order of the items in the deck
 		this.gameWaiting=false;
 		startRound();
 	}
@@ -67,7 +68,7 @@ public class Game extends Globals{
 		Iterator<Client> itr = this.activePlayers.iterator();
 		while(itr.hasNext()) {
 			Client plr = itr.next();
-			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
+			plr.println("Your hand: \n"+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
 			plr.waitingForInput=true;
 		}
 	}
@@ -84,16 +85,16 @@ public class Game extends Globals{
 			if(cmds.length==1) success = false;
 			else{
 				try{
-					Vector<int> discardList = new Vector<int>();
+					Vector<Integer> discardList = new Vector<Integer>();
 					for(int i=1;i<cmds.length;i++){
 						int cardNum = Integer.parseInt(cmds[i]);
 						if(cardNum>=1 && cardNum<=player.hand.size())
-							discardList.add(cardNum);
+							discardList.add(new Integer(cardNum));
 						else
 							success = false;
 					}
 					if(success){
-						Iterator<int> itr = discardList.iterator();
+						Iterator<Integer> itr = discardList.iterator();
 						while(itr.hasNext()){
 							int handIndex = itr.next() - 1; //Players will give a number 1 - 5, the card vector will have indexes 0 - 4
 							//Swap out all the cards the player wants discarded for cards from the top of the deck,
@@ -112,7 +113,7 @@ public class Game extends Globals{
 		}
 		if(!success) player.out.println("Your options are:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
 		else{
-			this.playerResponses.add(player,response);
+			this.playerResponses.put(player,response);
 			player.waitingForInput = false;
 			
 			//Check if everyone responded
@@ -120,9 +121,12 @@ public class Game extends Globals{
 				Iterator<Client> itr = this.activePlayers.iterator();
 				while(itr.hasNext()) {
 					Client plr = itr.next();
-					plr.println("Your new hand: "+plr.getHand());
+					plr.println("Your new hand: \n"+plr.getHand());
 				}
 				this.nextPhase();
+			}
+			else{
+				player.out.println("Please wait for the other players...");
 			}
 		}
 	}
