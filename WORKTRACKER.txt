@@ -9,7 +9,7 @@ X
 M
  - removePlayer UNSTARTED
  - discardPhase UNTESTED
- - discardResponse UNSTARTED
+ - discardResponse UNTESTED
 J
  - startRound UNSTARTED
  - nextPhase UNSTARTED

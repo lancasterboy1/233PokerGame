@@ -1,8 +1,13 @@
 import java.util.Vector;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 
-public class Game{
+public class Game extends Globals{
 	private Vector<Client> players;
 	private Vector<Client> activePlayers;
+	private Map<Client,String> playerResponses;
 	private Vector<Card> deck;
 	private boolean gameWaiting;
 	private int gamePhase; //index of PHASE_ARRAY
@@ -21,6 +26,7 @@ public class Game{
 	public void Game(Client creator) {
 		players = new Vector<Client>();
 		deck = new Vector<Card>();
+		playerResponses = new HashMap<Client,String>();
 		players.add(creator);
 		creator.currentGame=this;
 		this.gameWaiting=true;
@@ -36,6 +42,7 @@ public class Game{
 		while(itr.hasNext()) {
 			itr.next().numChips=1000;
 		}
+		// fun tip: Collections.shuffle(v) shuffles the item order for the vector v
 		this.gameWaiting=false;
 		startRound();
 	}
@@ -56,17 +63,68 @@ public class Game{
 
 	// Austyn - Marc
 	private void discardPhase(){
-		Iterator<Client> itr = players.iterator();
+		this.playerResponses.clear();
+		Iterator<Client> itr = this.activePlayers.iterator();
 		while(itr.hasNext()) {
-			plr = itr.next();
+			Client plr = itr.next();
 			plr.println("Your hand: "+plr.getHand()+"\nYou can:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
 			plr.waitingForInput=true;
 		}
 	}
 
 	//Marc
-	private void discardResponse(Client player, String response){
-		
+	private void discardResponse(Client player, String response){ //UNTESTED
+		String[] cmds = response.split(" ");
+		boolean success = false;
+		if(cmds[0] == USER_RESP_HOLD){
+			success = true;
+		}
+		else if(cmds[0] == USER_RESP_DISCARD){
+			success = true;
+			if(cmds.length==1) success = false;
+			else{
+				try{
+					Vector<int> discardList = new Vector<int>();
+					for(int i=1;i<cmds.length;i++){
+						int cardNum = Integer.parseInt(cmds[i]);
+						if(cardNum>=1 && cardNum<=player.hand.size())
+							discardList.add(cardNum);
+						else
+							success = false;
+					}
+					if(success){
+						Iterator<int> itr = discardList.iterator();
+						while(itr.hasNext()){
+							int handIndex = itr.next() - 1; //Players will give a number 1 - 5, the card vector will have indexes 0 - 4
+							//Swap out all the cards the player wants discarded for cards from the top of the deck,
+							//moving the discarded cards to the bottom of the deck
+							this.deck.add(0,player.hand.elementAt(handIndex));
+							player.hand.remove(handIndex);
+							player.hand.add(handIndex,this.deck.lastElement());
+							this.deck.remove(this.deck.lastElement());
+						}
+						//Collections.shuffle(this.deck) OPTIONAL SHUFFLING STEP
+					}
+				}
+				catch(NumberFormatException e) success = false;
+				catch(IndexOutOfBoundsException e) success = false;
+			}
+		}
+		if(!success) player.out.println("Your options are:\nHOLD\nDISCARD [the numbers of the cards to discard, ie 1, 2, 3, 4, or 5, separated by spaces]");
+		else{
+			this.playerResponses.add(player,response);
+			player.waitingForInput = false;
+			
+			//Check if everyone responded
+			if(this.playerResponses.size()==this.activePlayers.size()){
+				Iterator<Client> itr = this.activePlayers.iterator();
+				while(itr.hasNext()) {
+					Client plr = itr.next();
+					plr.println("Your new hand: "+plr.getHand());
+				}
+				this.nextPhase();
+			}
+		}
 	}
 	
 	private void tellAllPlayers(String msg){
@@ -78,7 +136,7 @@ public class Game{
 
 	// Austyn
 	private int totalPlayers(){
-		return this.players.length();
+		return this.players.size();
 	}
 
 	// Austyn

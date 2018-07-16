@@ -99,16 +99,6 @@ public class Master extends Globals{
 		}
 	}
 	
-	private static String cleanInput(char[] charBuf, int bufLength){
-		StringBuilder builder = new StringBuilder();
-		for(int i=0;i<bufLength;i++){
-			if(charBuf[i]>=32 && charBuf[i]<=126){
-				builder.append(charBuf[i]);
-			}
-		}
-		return builder.toString();
-	}
-	
 	public static void close(){
 		System.out.println("Closing server...");
 		try{

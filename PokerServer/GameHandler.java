@@ -42,7 +42,7 @@ public class GameHandler{
 	* @param cmd The message they sent
 	*/
 	public static void clientSendData(Client user, String cmd) {
-		if(cmd=="JOIN") {
+		if(cmd==USER_CMD_JOIN) {
 			Iterator<Game> gameIterator = gameList.iterator();
 			while(gameIterator.hasNext()) {
 				if(!gameIterator.next().isFull()) {
@@ -53,11 +53,11 @@ public class GameHandler{
 			Game newGame = new Game(user);
 			gameList.add(newGame);
 		}
-		else if(cmd=="START") {
+		else if(cmd==USER_CMD_START) {
 			if(user.currentGame!=null)
 				user.currentGame.startGame();
 		}
-		else if(cmd=="EXIT") {
+		else if(cmd==USER_CMD_EXIT) {
 			if(user.currentGame!=null)
 				user.currentGame.removePlayer(user);
 			user.close();
