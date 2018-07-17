@@ -37,7 +37,7 @@ public class Game extends Globals{
 	public void removePlayer(Client player){}
 	
 	public void startGame() {
-		this.playerResponses = new HashMap<int,String>(this.players.size()); //please leave this here i need it
+		this.playerResponses = new HashMap<Client,String>(this.players.size()); //please leave this here i need it
 		
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
