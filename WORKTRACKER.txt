@@ -1,5 +1,5 @@
 S
- - clientSendData UNTESTED
+ - clientSentData UNTESTED
  - Game UNTESTED
  - startGame INCOMPLETE
 X
@@ -7,7 +7,7 @@ X
  - endRound UNSTARTED
  - endgame UNSTARTED
 M
- - removePlayer UNSTARTED
+ - removePlayer UNTESTED
  - discardPhase UNTESTED
  - discardResponse UNTESTED
 J

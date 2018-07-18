@@ -34,10 +34,29 @@ public class Game extends Globals{
 	//Xiedong
 	public void addPlayer(Client player){}
 	private void endRound() {}
-	private void endGame() {}
+	private void endGame(Client player) {}
 	
 	//Marc
-	public void removePlayer(Client player){}
+	public void removePlayer(Client player){ //UNTESTED
+		if(player.waitingForInput){ //this will get rid of their waitingForInput
+			if(PHASE_ARRAY[gamePhase]=="DISCARD"){
+				this.userSentData(player,USER_RESP_HOLD); //auto-hold
+			}
+			else if(PHASE_ARRAY[gamePhase]=="BET"){
+				this.userSentData(player,USER_RESP_FOLD); //auto-fold
+			}
+		}
+		
+		player.currentGame=null;
+		player.hand.clear();
+		this.players.remove(player);
+		this.activePlayers.remove(player);
+		//POSSIBLE GLITCH: During the bet phase, a player leaves, fucking up the iterator and either skipping someone or accessing a nonexistent element of activePlayers
+		if(players.size()==1){
+			Client lastPlayer = this.players.elementAt(0);
+			lastPlayer.waitingForInput = false;
+			this.endGame(lastPlayer);
+	}
 	
 	public void startGame() {
 		this.playerResponses = new HashMap<Client,String>(this.players.size()); //please leave this here i need it

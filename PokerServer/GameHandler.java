@@ -41,7 +41,7 @@ public class GameHandler{
 	* @param client The client who sent a message
 	* @param cmd The message they sent
 	*/
-	public static void clientSendData(Client user, String cmd) {
+	public static void clientSentData(Client user, String cmd) {
 		if(cmd==USER_CMD_JOIN) {
 			Iterator<Game> gameIterator = gameList.iterator();
 			while(gameIterator.hasNext()) {
