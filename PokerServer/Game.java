@@ -31,7 +31,10 @@ public class Game extends Globals{
 		this.gameWaiting=true;
 	}
 	
+	//Xiedong
 	public void addPlayer(Client player){}
+	private void endRound() {}
+	private void endGame() {}
 	
 	//Marc
 	public void removePlayer(Client player){}
