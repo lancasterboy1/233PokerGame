@@ -20,6 +20,7 @@ public class Game extends Globals{
 
 	Iterator<Client> betItr = players.iterator();
 
+
 	
 	public boolean isFull() {
 		return gameIsFull;
@@ -196,7 +197,6 @@ public class Game extends Globals{
 			consecutiveCalls = 0;
 
 			// not sure we need this boolean..
-			allIn = false;
 
 			plr = betItr.next();
 			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
@@ -227,8 +227,12 @@ public class Game extends Globals{
 			currentBetTurn = 2;
 		}
 
-		// Last round, cannot raise / go all in
+		// Second round, cannot raise / go all in
 		else if (currentBetTurn == 2) {
+
+			if (player.allIn == true){
+				plr.println("You are all in\nYour turn will continue with any text entry");
+			}
 
 			for (int x = 1; x < playerCount; x++) {
 				plr = betItr.next();
@@ -304,11 +308,21 @@ public class Game extends Globals{
 
 		// First round
 		else if (currentBetTurn == 1){
+
 			if (cmd == "FOLD")
 				removePlayer(player);
 			if else (cmd == "CALL"){
-				totalChips += currentBet;
-				player.numChips -= currentBet;
+				if (player.numChips <= currentBet){
+					player.out.println("You are all in");
+					totalChips += player.numChips;
+					currentBet = player.numChips;
+					player.numChips = 0;
+					player.allIn = true;
+				}
+				else {
+					totalChips += currentBet;
+					player.numChips -= currentBet;
+				}
 			}
 			if else (cmd == "GO ALL IN"){
 				totalChips += player.numChips;
@@ -326,6 +340,7 @@ public class Game extends Globals{
 						player.out.println("You are all in");
 						totalChips += player.numChips;
 						currentBet = player.numChips;
+						player.allIn = true;
 						player.numChips = 0;
 					}
 					else {
@@ -342,6 +357,10 @@ public class Game extends Globals{
 
 		// Second round, cannot raise / go all in
 		else if (currentBetTurn == 2){
+
+			if (player.allIn == true)
+				break;
+
 			if (cmd == "FOLD")
 				removePlayer(player);
 			if (cmd == "CALL"){
