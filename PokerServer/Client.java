@@ -16,6 +16,7 @@ public class Client{
 	public Vector<Card> hand;
 	public Game currentGame;
 	public boolean waitingForInput;
+	public boolean allIn = false;
 	
 	public Client(Socket clientSocket){
 		this.cSocket=clientSocket;

@@ -16,7 +16,6 @@ public class Game extends Globals{
 	private int currentBetTurn=0; // 0 == first player bet, 1 == every other player bet in first round, 2 == second round of bet (can't raise)
 	private int currentBet=0;
 	private int consecutiveCalls=0;
-	private boolean allIn=false;
 	private int totalChips;
 
 	Iterator<Client> betItr = players.iterator();
@@ -155,7 +154,11 @@ public class Game extends Globals{
 			}
 		}
 	}
-	
+
+
+		/**
+		 * tellAllPlayers sends a message to all players to be used throughout the code
+		 */
 	private void tellAllPlayers(String msg){
 		Iterator<Client> itr = players.iterator();
 		while(itr.hasNext()) {
@@ -164,11 +167,21 @@ public class Game extends Globals{
 	}
 
 	// Austyn
+		/**
+		 * totalPlayers totals the amount of players in the vector
+		 */
 	private int totalPlayers(){
 		return this.players.size();
 	}
 
 	// Austyn
+		/**
+		 *  betPhase writes to individual player screens depending on the phase of betting that is occuring
+		 *  actions are: RAISE [AMT] (ie RAISE 5, RAISE 12, etc), CALL, FOLD, GO ALL IN
+		 *  if the first player to bet is betting, they must call a minimum 2 chips
+		 *  if every other player is betting in the first round, they can perform all actions
+		 *  if the players are betting in the second round, they cannot raise / go all in such as to limit betting to two rounds
+		 */
 	private void betPhase(){
 
 			int playerCount = totalPlayers();
@@ -181,6 +194,8 @@ public class Game extends Globals{
 			currentBetTurn = 0;
 			currentBet = 0;
 			consecutiveCalls = 0;
+
+			// not sure we need this boolean..
 			allIn = false;
 
 			plr = betItr.next();
@@ -234,17 +249,21 @@ public class Game extends Globals{
 	}
 
 	// Austyn
+		/**
+		 * betResponse chases all variables depending on player response (ie currentBet, totalChips, individual player numChips,
+		 */
 	private void betResponse(Client player, String cmd){
 
 		// First player bet, minimum call is 2 chips
 		if (currentBetTurn == 0) {
 			if (cmd == "FOLD")
 				removePlayer(player);
-			if (cmd == "CALL"){
+			if else (cmd == "CALL"){
 				if (player.numChips <= 2) {
 					player.out.println("You are all in");
 					totalChips += player.numChips;
 					player.numChips = 0;
+					player.allIn = true;
 					currentBet = 2;
 				}
 				else {
@@ -252,9 +271,10 @@ public class Game extends Globals{
 					player.numChips -= 2;
 				}
 			}
-			if (cmd == "GO ALL IN"){
+			if else (cmd == "GO ALL IN"){
 				totalChips += player.numChips;
 				currentBet = player.numChips;
+				player.allIn = true;
 				player.numChips = 0;
 			}
 			else {
@@ -263,11 +283,13 @@ public class Game extends Globals{
 
 				// didn't put an error message.. will add later
 				if (splitted[0] == "RAISE") {
-					if (result >= player.numChips)
+					if (result >= player.numChips) {
 						player.out.println("You are all in");
-					totalChips += player.numChips;
-					currentBet = player.numChips;
-					player.numChips = 0;
+						totalChips += player.numChips;
+						currentBet = player.numChips;
+						player.numChips = 0;
+						player.allIn = true;
+					}
 						else {
 						currentBet = result;
 						totalChips += result;
@@ -282,40 +304,39 @@ public class Game extends Globals{
 
 		// First round
 		else if (currentBetTurn == 1){
+			if (cmd == "FOLD")
+				removePlayer(player);
+			if else (cmd == "CALL"){
+				totalChips += currentBet;
+				player.numChips -= currentBet;
+			}
+			if else (cmd == "GO ALL IN"){
+				totalChips += player.numChips;
+				currentBet = player.numChips;
+				player.allIn = true;
+				player.numChips = 0;
+			}
+			else {
+				String[] splited = cmd.split("\\s+");
+				int result = Integer.parseInt(splitted[1]);
 
-			if (currentBetTurn == 0) {
-				if (cmd == "FOLD")
-					removePlayer(player);
-				if else (cmd == "CALL"){
-					totalChips += currentBet;
-					player.numChips -= currentBet;
-				}
-				if else (cmd == "GO ALL IN"){
-					totalChips += player.numChips;
-					currentBet = player.numChips;
-					player.numChips = 0;
-				}
-				else {
-					String[] splited = cmd.split("\\s+");
-					int result = Integer.parseInt(splitted[1]);
-
-					// didn't put an error message.. will add later
-					if (splitted[0] == "RAISE") {
-						if (result >= player.numChips)
-							player.out.println("You are all in");
+				// didn't put an error message.. will add later
+				if (splitted[0] == "RAISE") {
+					if (result >= player.numChips){
+						player.out.println("You are all in");
 						totalChips += player.numChips;
 						currentBet = player.numChips;
 						player.numChips = 0;
-						else {
-							currentBet = result;
-							totalChips += result;
-							player.numChips -= result;
-						}
 					}
-					else
-						player.out.prinltn("Invalid Entry");
-					// what else to write here for error?
+					else {
+						currentBet = result;
+						totalChips += result;
+						player.numChips -= result;
+					}
 				}
+				else
+					player.out.prinltn("Invalid Entry");
+				// what else to write here for error?
 			}
 		}
 
