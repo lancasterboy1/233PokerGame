@@ -17,6 +17,9 @@ public class Game extends Globals{
 	private int currentBet=0;
 	private int consecutiveCalls=0;
 	private boolean allIn=false;
+	private int totalChips;
+
+	Iterator<Client> betItr = players.iterator();
 
 	
 	public boolean isFull() {
@@ -168,64 +171,165 @@ public class Game extends Globals{
 	// Austyn
 	private void betPhase(){
 
-		currentBetTurn=0;
-		currentBet=0;
-		consecutiveCalls=0;
-		allIn=false;
+			int playerCount = totalPlayers();
+			// Iterator<Client> itr = players.iterator();
+			// ^ made into global variable called betItr
 
-		int playerCount = totalPlayers();
 
-		Iterator<Client> itr = players.iterator();
+		// First player bet phase (minimum bet is 2 chips)
+		if (currentBetTurn == 0) {
+			currentBetTurn = 0;
+			currentBet = 0;
+			consecutiveCalls = 0;
+			allIn = false;
 
-		// First player must call minimum call of 2 chips
-		plr = itr.next();
-		plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
-		plr.waitingForInput = true;
-		betResponse();
-		plr.waitingForInput = false;
-
-		currentBetTurn = 1;
-		for(int x = 1; x < playerCount; x++) {
-			plr = itr.next();
-			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
+			plr = betItr.next();
+			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
+
+			currentBetTurn = 1;
+
+		}
+
+		// First round, can call, raise, go all in, fold
+		else if (currentBetTurn == 1) {
+
+
+			for (int x = 1; x < playerCount; x++) {
+				plr = betItr.next();
+				plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [AMT]\nFOLD\nCALL\nGO ALL IN");
+				plr.waitingForInput = true;
 			/*betResponse();
 			plr.waitingForInput = false;*/
-			// betResponse() is called by userSentData only, in the event that a client sends data,
-			// their waitingForInput is true, and the current phase is betPhase
+				// betResponse() is called by userSentData only, in the event that a client sends data,
+				// their waitingForInput is true, and the current phase is betPhase
+			}
+
+			while (betItr.hasPrevious()) {
+				plr = betItr.previous();
+			}
+
+			currentBetTurn = 2;
 		}
 
-		while(itr.hasPrevious()) {
-			plr = itr.previous();
-		}
+		// Last round, cannot raise / go all in
+		else if (currentBetTurn == 2) {
 
-		currentBetTurn = 2;
-		for(int x = 1; x < playerCount; x++) {
-			plr = itr.next();
-			plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nFOLD\nCALL");
-			plr.waitingForInput = true;
+			for (int x = 1; x < playerCount; x++) {
+				plr = betItr.next();
+				plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nFOLD\nCALL");
+				plr.waitingForInput = true;
 			/*betResponse();
 			plr.waitingForInput = false;*/
-			//same story here
-		}
+				//same story here
+			}
 
-		while(itr.hasPrevious()) {
-			plr = itr.previous();
+			while (betItr.hasPrevious()) {
+				plr = betItr.previous();
+			}
+
+			currentBetTurn =0;
 		}
 
 	}
 
 	// Austyn
-	private void betResponse(Client user, String cmd){
+	private void betResponse(Client player, String cmd){
 
+		// First player bet, minimum call is 2 chips
 		if (currentBetTurn == 0) {
+			if (cmd == "FOLD")
+				removePlayer(player);
+			if (cmd == "CALL"){
+				if (player.numChips <= 2) {
+					player.out.println("You are all in");
+					totalChips += player.numChips;
+					player.numChips = 0;
+					currentBet = 2;
+				}
+				else {
+					totalChips = 2;
+					player.numChips -= 2;
+				}
+			}
+			if (cmd == "GO ALL IN"){
+				totalChips += player.numChips;
+				currentBet = player.numChips;
+				player.numChips = 0;
+			}
+			else {
+				String[] splited = cmd.split("\\s+");
+				int result = Integer.parseInt(splitted[1]);
 
+				// didn't put an error message.. will add later
+				if (splitted[0] == "RAISE") {
+					if (result >= player.numChips)
+						player.out.println("You are all in");
+					totalChips += player.numChips;
+					currentBet = player.numChips;
+					player.numChips = 0;
+						else {
+						currentBet = result;
+						totalChips += result;
+						player.numChips -= result;
+					}
+				}
+				else
+					player.out.prinltn("Invalid Entry");
+				// what else to write here for error?
+			}
 		}
+
+		// First round
 		else if (currentBetTurn == 1){
 
-		}
-		else if (currentBetTurn == 2){
+			if (currentBetTurn == 0) {
+				if (cmd == "FOLD")
+					removePlayer(player);
+				if else (cmd == "CALL"){
+					totalChips += currentBet;
+					player.numChips -= currentBet;
+				}
+				if else (cmd == "GO ALL IN"){
+					totalChips += player.numChips;
+					currentBet = player.numChips;
+					player.numChips = 0;
+				}
+				else {
+					String[] splited = cmd.split("\\s+");
+					int result = Integer.parseInt(splitted[1]);
 
+					// didn't put an error message.. will add later
+					if (splitted[0] == "RAISE") {
+						if (result >= player.numChips)
+							player.out.println("You are all in");
+						totalChips += player.numChips;
+						currentBet = player.numChips;
+						player.numChips = 0;
+						else {
+							currentBet = result;
+							totalChips += result;
+							player.numChips -= result;
+						}
+					}
+					else
+						player.out.prinltn("Invalid Entry");
+					// what else to write here for error?
+				}
+			}
+		}
+
+		// Second round, cannot raise / go all in
+		else if (currentBetTurn == 2){
+			if (cmd == "FOLD")
+				removePlayer(player);
+			if (cmd == "CALL"){
+				totalChips += currentBet;
+				player.numChips -= currentBet;
+			}
+			else
+				player.out.prinltn("Invalid Entry");
+				// what else to write here for error?
 		}
 
 
@@ -233,7 +337,8 @@ public class Game extends Globals{
 
 	// Austyn
 	private void playerContinueResponse(Client user, String cmd){
-
-
+		// Fix yes / no response if the answers are incorrect
+		if (cmd == "NO")
+			removePlayer(player);
 	}
 }
