@@ -191,6 +191,7 @@ public class Game extends Globals{
 
 		// First player bet phase (minimum bet is 2 chips)
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (currentBetTurn == 0) {
 			currentBetTurn = 0;
 			currentBet = 0;
@@ -202,10 +203,13 @@ public class Game extends Globals{
 			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [AMT]\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
 =======
+>>>>>>> 6ce52b84ce940917e0eb55e7a5ab3a48087202ee
 		
 		currentBetTurn = 1;
 		currentBet = STARTING_BET;
 		consecutiveCalls = 0;
+<<<<<<< HEAD
+>>>>>>> 6ce52b84ce940917e0eb55e7a5ab3a48087202ee
 >>>>>>> 6ce52b84ce940917e0eb55e7a5ab3a48087202ee
 
 		// not sure we need this boolean..
