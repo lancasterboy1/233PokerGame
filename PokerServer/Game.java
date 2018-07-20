@@ -18,7 +18,6 @@ public class Game extends Globals{
 	private int consecutiveCalls=0;
 	private int totalChips;
 
-	Iterator<Client> betItr = players.iterator();
 	Iterator<Client> betItr;
 
 
@@ -186,9 +185,6 @@ public class Game extends Globals{
 		 */
 	private void betPhase(){
 
-			int playerCount = totalPlayers();
-			// Iterator<Client> itr = players.iterator();
-			// ^ made into global variable called betItr
 		betItr = activePlayers.iterator();
 		// ^ made into global variable called betItr
 
@@ -203,7 +199,6 @@ public class Game extends Globals{
 			// not sure we need this boolean..
 
 			plr = betItr.next();
-			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
 			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [AMT]\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
 =======
@@ -213,16 +208,13 @@ public class Game extends Globals{
 		consecutiveCalls = 0;
 >>>>>>> 6ce52b84ce940917e0eb55e7a5ab3a48087202ee
 
-			currentBetTurn = 1;
 		// not sure we need this boolean..
 
-		}
 		plr = betItr.next();
 		plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [number]\nFOLD\nCALL\nGO ALL IN");
 		plr.waitingForInput = true;
 
 		// First round, can call, raise, go all in, fold
-		else if (currentBetTurn == 1) {
 		/*else if (currentBetTurn == 1) {
 
 
@@ -231,7 +223,6 @@ public class Game extends Globals{
 				plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [AMT]\nFOLD\nCALL\nGO ALL IN");
 				plr.waitingForInput = true;
 			/*betResponse();
-			plr.waitingForInput = false;*/
 			plr.waitingForInput = false;
 				// betResponse() is called by userSentData only, in the event that a client sends data,
 				// their waitingForInput is true, and the current phase is betPhase
@@ -256,7 +247,6 @@ public class Game extends Globals{
 				plr.println("The current bet is: " + currentBet + " chips\nYour hand: " + plr.getHand() + "\nYou can:\nFOLD\nCALL");
 				plr.waitingForInput = true;
 			/*betResponse();
-			plr.waitingForInput = false;*/
 			plr.waitingForInput = false;
 				//same story here
 			}
@@ -266,7 +256,6 @@ public class Game extends Globals{
 			}
 
 			currentBetTurn =0;
-		}
 		}*/
 
 	}
@@ -278,7 +267,6 @@ public class Game extends Globals{
 	private void betResponse(Client player, String cmd){
 
 		// First player bet, minimum call is 2 chips
-		if (currentBetTurn == 0) {
 		/*if (currentBetTurn == 1) {
 			if (cmd == "FOLD")
 				removePlayer(player);
@@ -324,14 +312,9 @@ public class Game extends Globals{
 					player.out.prinltn("Invalid Entry");
 				// what else to write here for error?
 			}
-		}
 		}*/
 
 		// First round
-		else if (currentBetTurn == 1){
-
-			if (cmd == "FOLD")
-				removePlayer(player);
 		if (currentBetTurn == 1){
 			boolean proceedNextTurn=false;
 		
@@ -362,21 +345,6 @@ public class Game extends Globals{
 			}
 			else {
 				String[] splited = cmd.split("\\s+");
-				int result = Integer.parseInt(splitted[1]);
-
-				// didn't put an error message.. will add later
-				if (splitted[0] == "RAISE") {
-					if (result >= player.numChips){
-						player.out.println("You are all in");
-						totalChips += player.numChips;
-						currentBet = player.numChips;
-						player.allIn = true;
-						player.numChips = 0;
-					}
-					else {
-						currentBet = result;
-						totalChips += result;
-						player.numChips -= result;
 				try{
 					int result = Integer.parseInt(splitted[1]);
 					if (splitted[0] == "RAISE") {
@@ -403,9 +371,6 @@ public class Game extends Globals{
 						player.out.println("Invalid Entry");
 					// what else to write here for error?
 				}
-				else
-					player.out.prinltn("Invalid Entry");
-				// what else to write here for error?
 				catch(NumberFormatException e){
 					//requery
 				}
@@ -424,8 +389,6 @@ public class Game extends Globals{
 			if (player.allIn == true)
 				break;
 
-			if (cmd == "FOLD")
-				removePlayer(player);
 			if (cmd == "FOLD"){
 				betItr.remove();
 				proceedNextTurn=true;
