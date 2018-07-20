@@ -204,6 +204,7 @@ public class Game extends Globals{
 
 			plr = betItr.next();
 			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
+			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [AMT]\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
 =======
 		
