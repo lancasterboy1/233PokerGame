@@ -8,6 +8,7 @@ public class Globals{
 	final static String[] FACE_VALUES=["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"];
 	final static String[] SUITS=["diamonds","clubs","spades","hearts"];
 	final static String[] PHASE_ARRAY=["DISCARD","BET","FINISH"]; //must end with FINISH
+	final static int STARTING_BET=2;
 	
 	//Commands
 	final static String USER_CMD_JOIN="JOIN";
@@ -18,6 +19,7 @@ public class Globals{
 	final static String USER_RESP_FOLD="FOLD";
 	final static String USER_RESP_CALL="CALL";
 	final static String USER_RESP_RAISE="RAISE";
+	final static String USER_RESP_ALLIN="ALLIN";
 	
 	//General use functions
 	protected static String cleanInput(char[] charBuf, int bufLength){

@@ -19,6 +19,7 @@ public class Game extends Globals{
 	private int totalChips;
 
 	Iterator<Client> betItr = players.iterator();
+	Iterator<Client> betItr;
 
 
 	
@@ -188,9 +189,12 @@ public class Game extends Globals{
 			int playerCount = totalPlayers();
 			// Iterator<Client> itr = players.iterator();
 			// ^ made into global variable called betItr
+		betItr = activePlayers.iterator();
+		// ^ made into global variable called betItr
 
 
 		// First player bet phase (minimum bet is 2 chips)
+<<<<<<< HEAD
 		if (currentBetTurn == 0) {
 			currentBetTurn = 0;
 			currentBet = 0;
@@ -201,13 +205,24 @@ public class Game extends Globals{
 			plr = betItr.next();
 			plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE\nFOLD\nCALL\nGO ALL IN");
 			plr.waitingForInput = true;
+=======
+		
+		currentBetTurn = 1;
+		currentBet = STARTING_BET;
+		consecutiveCalls = 0;
+>>>>>>> 6ce52b84ce940917e0eb55e7a5ab3a48087202ee
 
 			currentBetTurn = 1;
+		// not sure we need this boolean..
 
 		}
+		plr = betItr.next();
+		plr.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [number]\nFOLD\nCALL\nGO ALL IN");
+		plr.waitingForInput = true;
 
 		// First round, can call, raise, go all in, fold
 		else if (currentBetTurn == 1) {
+		/*else if (currentBetTurn == 1) {
 
 
 			for (int x = 1; x < playerCount; x++) {
@@ -216,6 +231,7 @@ public class Game extends Globals{
 				plr.waitingForInput = true;
 			/*betResponse();
 			plr.waitingForInput = false;*/
+			plr.waitingForInput = false;
 				// betResponse() is called by userSentData only, in the event that a client sends data,
 				// their waitingForInput is true, and the current phase is betPhase
 			}
@@ -240,6 +256,7 @@ public class Game extends Globals{
 				plr.waitingForInput = true;
 			/*betResponse();
 			plr.waitingForInput = false;*/
+			plr.waitingForInput = false;
 				//same story here
 			}
 
@@ -249,6 +266,7 @@ public class Game extends Globals{
 
 			currentBetTurn =0;
 		}
+		}*/
 
 	}
 
@@ -260,9 +278,10 @@ public class Game extends Globals{
 
 		// First player bet, minimum call is 2 chips
 		if (currentBetTurn == 0) {
+		/*if (currentBetTurn == 1) {
 			if (cmd == "FOLD")
 				removePlayer(player);
-			if else (cmd == "CALL"){
+			else if (cmd == "CALL"){
 				if (player.numChips <= 2) {
 					player.out.println("You are all in");
 					totalChips += player.numChips;
@@ -305,12 +324,20 @@ public class Game extends Globals{
 				// what else to write here for error?
 			}
 		}
+		}*/
 
 		// First round
 		else if (currentBetTurn == 1){
 
 			if (cmd == "FOLD")
 				removePlayer(player);
+		if (currentBetTurn == 1){
+			boolean proceedNextTurn=false;
+		
+			if (cmd == "FOLD"){
+				betItr.remove();
+				proceedNextTurn=true;
+			}
 			if else (cmd == "CALL"){
 				if (player.numChips <= currentBet){
 					player.out.println("You are all in");
@@ -323,12 +350,14 @@ public class Game extends Globals{
 					totalChips += currentBet;
 					player.numChips -= currentBet;
 				}
+				proceedNextTurn=true;
 			}
 			if else (cmd == "GO ALL IN"){
 				totalChips += player.numChips;
 				currentBet = player.numChips;
 				player.allIn = true;
 				player.numChips = 0;
+				proceedNextTurn=true;
 			}
 			else {
 				String[] splited = cmd.split("\\s+");
@@ -347,11 +376,44 @@ public class Game extends Globals{
 						currentBet = result;
 						totalChips += result;
 						player.numChips -= result;
+				try{
+					int result = Integer.parseInt(splitted[1]);
+					if (splitted[0] == "RAISE") {
+						if (result >= player.numChips){
+							player.out.println("You are all in");
+							totalChips += player.numChips;
+							if(currentBet<player.numChips)
+								currentBet = player.numChips;
+							player.allIn = true;
+							player.numChips = 0;
+						}
+						else if(result<0){
+							player.out.println("Invalid raise number");
+						}
+						else {
+							player.out.println("You raised by %d",result);
+							currentBet = result;
+							totalChips += result;
+							player.numChips -= result;
+						}
+						proceedNextTurn=true;
 					}
+					else
+						player.out.println("Invalid Entry");
+					// what else to write here for error?
 				}
 				else
 					player.out.prinltn("Invalid Entry");
 				// what else to write here for error?
+				catch(NumberFormatException e){
+					//requery
+				}
+				catch(IndexOutOfBoundsException e){
+					//requery
+				}
+
+				// didn't put an error message.. will add later
+				
 			}
 		}
 
@@ -363,15 +425,40 @@ public class Game extends Globals{
 
 			if (cmd == "FOLD")
 				removePlayer(player);
+			if (cmd == "FOLD"){
+				betItr.remove();
+				proceedNextTurn=true;
+			}
 			if (cmd == "CALL"){
 				totalChips += currentBet;
 				player.numChips -= currentBet;
+				proceedNextTurn=true;
 			}
 			else
 				player.out.prinltn("Invalid Entry");
 				// what else to write here for error?
 		}
 
+		if(proceedNextTurn){
+			player.waitingForInput=false;
+			if(betItr.hasNext()){
+				nextPlayer=betItr.next();
+				nextPlayer.waitingForInput=true;
+				if(currentBetTurn==1)
+					nextPlayer.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\nRAISE [number]\nFOLD\nCALL\nGO ALL IN");
+				else nextPlayer.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\n=FOLD\nCALL");
+			}
+			else if(currentBetTurn==1){
+				betItr = activePlayers.iterator();
+				currentBetTurn=2;
+				nextPlayer=betItr.next();
+				nextPlayer.waitingForInput=true;
+				nextPlayer.println("The minimum bet is: 2 chips\nYour hand: " + plr.getHand() + "\nYou can:\n=FOLD\nCALL");
+			}
+			else if(currentBetTurn==2){
+				nextPhase();
+			}
+		}
 
 	}
 
